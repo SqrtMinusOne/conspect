@@ -1,0 +1,234 @@
+\documentclass[a4paper, 14pt]{extarticle}
+
+\usepackage{../conspectPreamble}
+
+\begin{document}
+\begin{titlepage}
+    {\centering
+        {\bfseries
+            \includegraphics[height=8cm]{logo.jpeg}\\
+            Unity. Precision. Perfection.\\
+            \vspace{3.5cm}
+            \uppercase{Конспект лекций} \\
+            по дисциплине \enquote{Теория автоматов и формальных языков}\\
+        }
+        \vspace{\fill}
+    }
+    \begin{tabular}{l l}
+        \textbf{Лектор}: & Вербицкая\\
+        \textbf{Страниц}: &\pageref{LastPage}\\
+        \textbf{Последнее обновление}: & \today{}\\ 
+        \textbf{Автор}: & Корытов Павел, 6304\\
+    \end{tabular}
+
+    \vspace{2cm}
+    {\centering
+        Санкт-Петербург \\
+        \the\year\\
+    }
+\end{titlepage}
+
+\tableofcontents
+\newpage
+\section{Введение}
+Виды языков:
+\begin{itemize}
+    \item Естественные --- Русский, английский
+    \item Искуственные
+    \begin{itemize}
+        \item Эсперанто, ложбан
+        \item Клингонский, эльфийский
+        \item C++, Python, Java, C\#, Haskell, OCaml, Perl, Coq, Agda
+    \end{itemize}
+\end{itemize}
+
+\subsection{Синтаксис и семантика}
+\begin{itemize}
+    \item \dfn{Синтаксис} --- правила построения программ из символов
+    \item \dfn{Семантика} --- правила истолкования программ
+\end{itemize}
+\begin{example}{Язык арифметических выражений}
+    \[ 1 \bullet (2+3) / 4 - 5 \]
+    \begin{itemize}
+        \item Синтаксис
+        \begin{itemize}
+            \item \dfn{Терм} --- последовательность цифр или любое выражение в скобках
+            \item \dfn{Слагаемое}, последовательность \dfn{термов}, соединенных знаками умножения и деление
+            \item \dfn{Выражение} --- последовательность \dfn{слагаемых}, соединенных знаками сложения и вычитания (перед первым слагаемым может стоят минус)  
+        \end{itemize}
+        \item Семантика
+        \begin{itemize}
+            \item Значение арифметического выражения 
+            \begin{itemize}
+                \item $-3.75$
+                \item $-4$
+                \item $ \frac{-15}{4} $
+            \end{itemize}
+        \end{itemize}
+    \end{itemize}
+\end{example}
+
+\subsection{Что такое язык? Теория множеств}
+\dfn{Язык} --- множество строк
+
+\subsubsection*{Множества}
+\dfn{Множество} --- набор уникальных элементов
+\begin{itemize}
+    \item $x\in X$: $x$ --- элемент множества $X$ ($x$ принадлежит $X$)
+    \item $x \notin X$ --- $x$ не являеся элементом $X$
+    \item Уникальность, неупорядоченность: $\{13, 42\} = \{42, 13\} = \{13, 42, 13 \}$
+    \item Универсальное множество --- множество всех элементов во вселенной
+\end{itemize}
+
+\subsubsection*{Подмножества}
+$A$ является подмножеством $B$ тогда и только тогда, % TODO
+
+$2^A = \{ B | B \subseteq A \}$ --- \textit{powerset}, множество всех подмножеств $A$ 
+
+\subsubsection*{Строки}
+\textit{Строка} --- последовательность символов
+\begin{itemize}
+    \item \textit{Алфавит} ($\Sigma$) --- конечное множество (атомарных, неделимых символов)
+    \item \textit{Цепочка} --- любая конечная последовательность символов алфавита --- предложение, слово, строка, \ldots{}\\
+    $\varepsilon$ --- цепочка, не содержащая ни одного символа
+    \item Конкатенация строк $\alpha$ и $\beta$ --- соединение строк
+    \item Обращение $a^R$ --- цепочка, символы которой записаны в обратном порядке
+    \item $n$-я степень цепочки $a^n$ --- конкатенация $n$ повторений цепочки
+    \item $|a|$ --- длина строки
+\end{itemize}
+Пример --- арифметические выражения\\
+Алфавит $\Sigma = \{0, 1, \ldots, 9, +, -, *, /, (, )\}$
+
+\subsection{Формальный язык}
+\begin{itemize}
+    \item $\Sigma$ --- алфавит
+        \begin{itemize}
+            \item $\Sigma = \{0, 1\}$
+        \end{itemize}
+    \item $\Sigma^*$ --- подмножетсов, содержаещее все цепочке в алфавите $\Sigma$, включая пустую цепочку
+    \item $\Sigma^+ = \Sigma^* / \{\varepsilon \} $
+    \item Формальный язык в алфавите $\Sigma$ --- подмножество всех цепочек в этом алфавите
+    \begin{itemize}
+        \item Для любого языка $L$ (в алфавите $\Sigma$) справедливо $L\subseteq \Sigma $
+    \item $L = \{0, 0, 000, \ldots \} \subset {\{0,1\}}^*$
+    \item $L = \{ 0, 0101, \ldots \} \subset {\{ 0, 1 \}}^*$
+    \end{itemize}
+\end{itemize}
+
+\textit{Метаязык} --- язык, на котором дано описание языка
+\begin{itemize}
+    \item Естественный язык
+    \item Язык металингвистических формул Бэкуса (БНФ)
+    \item Синтаксические диаграммы
+    \item Грамматики
+    \item \ldots{}
+\end{itemize}
+
+\subsubsection{БНФ --- Бэкуса-Наура форма}
+\begin{itemize}
+    \item \textit{Символ} --- элементарное понятие языка
+    \begin{itemize}
+        \item $+$ --- означает сложение в языке арифметических выражений
+    \end{itemize}
+    \item \textit{Метапеременная} --- сложное понятие языка
+    \begin{itemize}
+        \item Переменной <выражение> можно обозначить выражение
+    \end{itemize}
+    \item \textit{Формула}
+    \begin{itemize}
+        \item <определяемый символ> := <посл 1> | \ldots{} | <посл n> % chktex 26
+        \item В правой части формулы --- альтернатива конкатенаций строк, составленных из символов и метапеременных
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Расширенная БНФ (EBNF)}
+\begin{itemize} % TODO
+    \item \textit{Итерация}
+    \begin{itemize}
+        \item $<x> := \{ <y> \}$
+    \end{itemize}
+    \item \textit{Условное вхождение}
+    \item \textit{Скобки для группировки} 
+\end{itemize}
+
+\textit{Пример}. Арифметические выражения % TODO Example format
+\[ <expr> := [-] <factor> \{ (+ | -) <factor> \}  \]
+\[ <factor> := <term> \{ (* | /) <term> \} \]
+\[ <term> := <number> / '('<expr>')' \]
+
+\subsubsection{Синтаксические диаграммы Вирта}
+% TODO
+
+\subsection{Формальная грамматика}
+\begin{itemize}
+    \item \dfn{Порождающая грамматика} $G$ --- это четверка $\{V_T, V_N, P, S \}$
+    \begin{itemize}
+        \item $V_T$ --- алфавит терминальных символов
+        \item $V_N$ --- алфавит нетерминальных символов
+        \begin{itemize}
+            \item $ V_T \cap V_N = \emptyset $
+            \item $V :+ V_T \cap V_N$
+        \end{itemize}
+        \item $P$ --- конечное множество правил вида $\alpha \rightarrow \beta$
+        \item % TODO
+    \end{itemize}
+\end{itemize}
+
+\dfn{Отношение непосредственной выводимости}
+\begin{itemize}
+    \item $\alpha \rightarrow \beta \in P$
+    \item $\gamma, \delta \in V^*$
+    \item % TODO
+\end{itemize}
+
+\dfn{Отношение выводимости} --- рефлексивно-транзитивное замыкание отношения непосредственной выводимости
+\begin{itemize}
+    \item $\alpha_0, \alpha_1, \ldots, \alpha_n \in V^*$
+    \item $\alpha_0 \Rightarrow \alpha_1 \Rightarrow \ldots \Rightarrow \alpha_n$
+    \item % TODO
+\end{itemize}
+
+\[ S \rightarrow 0 | N | -N \]
+\[ N \rightarrow 1A \]
+\[ A \rightarrow 0A | 1A | \varepsilon \]
+
+\[ S \Rightarrow -N \Rightarrow -1A \Rightarrow -11A \Rightarrow^* -1101A \Rightarrow -1101 \]
+
+\subsubsection*{Свойства отношения выводимости}
+\begin{itemize}
+    \item Транзитивность % TODO
+    \item Рефлексивность
+\end{itemize}
+
+\subsubsection*{Левосторонний вывод}
+На каждом шагу заменяем самый левый нетерминал
+\begin{equation} % TODO multilne eq?
+    S \rightarrow AA | s\\
+    A \rightarrow a\\
+    A \rightarrow AA || Bb\\
+    B \rightarrow c | d
+\end{equation}
+
+\subsubsection*{Язык, порождаемый грамматикой} --- всевозможные цепочки из тервиналов, которые выводятся из стартового терминала
+\[ L(G) = \{ \omega \in V_T^* | S \Rightarrow^* \omega \} \]
+
+Грамматики $G_1$ и $G_2$ эквивалентны, если равны порождаемыми ими языки
+
+\subsubsection*{Контекстно-свободная грамматика} --- грамматика, все правила которой имеют вид $A \rightarrow \alpha, A \in V_n, \alpha \in V^*$. В левой части находится только один терминал
+
+Проблема такой грамматики в том, что запись естественных языков (и некоторых языков программирования) в таком виде невозможожна. Например, значение оператора $*$ в C++ зависит от контекста. В Java же синтаксис контекстно-свободный.
+
+Тем не менее, с помощью контестно-свободной грамматики можно записать отдельные элементы языков. 
+
+\subsubsection*{Дерево вывода}
+Дерево является \textit{деревом вывода} для $G = \{ V_n, V_T, P, S \} $, если
+\begin{itemize}
+    \item Каждый узел помечен символов из алфавита $V$
+    \item Метка корня --- $S$
+    \item Листья помечены терминалами, остальные узлы --- нетерминалами
+    \item Если узлы $n_0, \ldots, n_k$ --- прямые потомки узла $n$, перечисленные слева направо, с метками
+\end{itemize}
+
+\textit{Теорема}. Пусть $G = \{V_N, V_T, P, S\}$ --- КС-грамматика. Вывод $S^* \Rightarrow \alpha$, где $\alpha \in V^*$, $\alpha \ne \varepsilon$ существует дерево вывода в грамматика $G$ с результатом $n$
+
+\end{document}
