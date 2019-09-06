@@ -77,13 +77,48 @@
     \item $x\in X$: $x$ --- элемент множества $X$ ($x$ принадлежит $X$)
     \item $x \notin X$ --- $x$ не являеся элементом $X$
     \item Уникальность, неупорядоченность: $\{13, 42\} = \{42, 13\} = \{13, 42, 13 \}$
-    \item Универсальное множество --- множество всех элементов во вселенной
+    \item Универсальное множество (универсум) --- множество всех мыслимых объектов
+    \begin{itemize}
+        \item $ \mathbb[N] = \{ 1, 2, 3, \ldots \} $
+        \item $ \mathbb[Z] = \{ \ldots, -2, -1, 0, 1, 2, \ldots \} $
+        \item $ \mathbb[Q] = { m/n | m, n \in \mathbb[Z]; n \ne 0} $
+    \end{itemize}
 \end{itemize}
 
 \subsubsection*{Подмножества}
-$A$ является подмножеством $B$ тогда и только тогда, % TODO
+$A$ является \dfn{подмножеством} $B$ тогда и только тогда, когда все элементы $A$ являеются элементами $B$.
+\[ A \subseteq B \Longleftrightarrow \forall x: x \in A \Rightarrow x \in B \]
 
-$2^A = \{ B | B \subseteq A \}$ --- \textit{powerset}, множество всех подмножеств $A$ 
+\dfn{Пустое множество ($\emptyset$)} --- мноэество без элементов
+\begin{itemize}
+    \item $ \forall x: x \notin \emptyset $
+    \item $ \forall A: \emptyset \subseteq A $
+\end{itemize}
+
+Множества $A$ и $B$ \dfn{равны} тогда и только тогда, когда $A$ является подмножеством $B$ и $B$ является подмножеством $A$
+\[ A = B \Longleftrightarrow (A \subseteq B) \wedge (B \subseteq A) \]
+
+$A$ является \dfn{строгим подмножеством} $B$ тогда и только тогда, когда $A$ является подмножеством $B$, но они не равны друг другу
+\[ A \subset B \Longleftrightarrow (A \subseteq B) \wedge A \ne B \]
+\begin{itemize}
+    \item $ \forall x: \emptyset \subset \{ x \} $
+    \item $ \forall A: (A = A) \wedge A \not\subset B $ 
+\end{itemize}
+
+$2^A = \{ B | B \subseteq A \}$ --- \textit{powerset}, множество всех подмножеств $A$
+\begin{itemize}
+    \item $ \forall A: \emptyset in 2^A $
+    \item $ \forall A: A \in 2^A $
+    \item $ A = \{ 0, 1 \} \Rightarrow \{ \emptyset, \{0\}, \{1\}, \{0, 1\} \} $ 
+\end{itemize}
+
+\subsubsection*{Операции над множествами}
+\begin{itemize}
+    \item \dfn{Объединение}: $ A \cup B = \{ x | (x \in A) \vee (x \in B) \} $
+    \item \dfn{Пересечение}: $ A \cap B = \{ x | (x \in A) \wedge (x \in B) \} $
+    \item \dfn{Разность}: $ A \\ B = { x | (x \in A) \wedge (x \notin B) } $
+    \item \dfn{Дополнение}: $ \bar{A} = {x | (x \in u) \wedge (x \notin A)} = u \\ A $
+\end{itemize}
 
 \subsubsection*{Строки}
 \textit{Строка} --- последовательность символов
@@ -91,11 +126,20 @@ $2^A = \{ B | B \subseteq A \}$ --- \textit{powerset}, множество все
     \item \textit{Алфавит} ($\Sigma$) --- конечное множество (атомарных, неделимых символов)
     \item \textit{Цепочка} --- любая конечная последовательность символов алфавита --- предложение, слово, строка, \ldots{}\\
     $\varepsilon$ --- цепочка, не содержащая ни одного символа
-    \item Конкатенация строк $\alpha$ и $\beta$ --- соединение строк
-    \item Обращение $a^R$ --- цепочка, символы которой записаны в обратном порядке
-    \item $n$-я степень цепочки $a^n$ --- конкатенация $n$ повторений цепочки
-    \item $|a|$ --- длина строки
 \end{itemize}
+
+\subsubsection*{Операции над строками}
+\begin{itemize}
+    \item Конкатенация строк $\alpha$ и $\beta$ ($ \alpha \bullet \beta = \alpha\beta $) --- соединение строк
+    \begin{itemize}
+        \item $ \forall \alpha\beta\gamma: (\alpha \bullet \beta) \bullet \gamma = \alpha \bullet (\beta \bullet \gamma) $
+        \item $ \forall \alpha: \alpha \bullet \varepsilon = \varepsilon \bullet \alpha = \alpha $
+    \end{itemize}
+    \item \dfn{Обращение (реверс)} $a^R$ --- цепочка, символы которой записаны в обратном порядке
+    \item $n$-я степень цепочки $a^n$ --- конкатенация $n$ повторений цепочки
+    \item $|a|$ --- \dfn{длина строки} --- количество составляющих её символов
+\end{itemize}
+
 Пример --- арифметические выражения\\
 Алфавит $\Sigma = \{0, 1, \ldots, 9, +, -, *, /, (, )\}$
 
@@ -107,7 +151,7 @@ $2^A = \{ B | B \subseteq A \}$ --- \textit{powerset}, множество все
         \end{itemize}
     \item $\Sigma^*$ --- подмножетсов, содержаещее все цепочке в алфавите $\Sigma$, включая пустую цепочку
     \item $\Sigma^+ = \Sigma^* / \{\varepsilon \} $
-    \item Формальный язык в алфавите $\Sigma$ --- подмножество всех цепочек в этом алфавите
+    \item Формальный язык в алфавите $\Sigma$ --- подмножество множества всех цепочек в этом алфавите
     \begin{itemize}
         \item Для любого языка $L$ (в алфавите $\Sigma$) справедливо $L\subseteq \Sigma $
     \item $L = \{0, 0, 000, \ldots \} \subset {\{0,1\}}^*$
@@ -139,80 +183,132 @@ $2^A = \{ B | B \subseteq A \}$ --- \textit{powerset}, множество все
         \item <определяемый символ> := <посл 1> | \ldots{} | <посл n> % chktex 26
         \item В правой части формулы --- альтернатива конкатенаций строк, составленных из символов и метапеременных
     \end{itemize}
+    \item Пример: число
+    \begin{itemize}
+        \item <цифра> $:=$ | 0 | 1 | \ldots{} | 9
+        \item <число> $:=$ <цифра>|<цифра><число>
+    \end{itemize}
 \end{itemize}
 
 \subsubsection{Расширенная БНФ (EBNF)}
-\begin{itemize} % TODO
+\begin{itemize}
     \item \textit{Итерация}
     \begin{itemize}
-        \item $<x> := \{ <y> \}$
+        \item $<x> := \{ <y> \}$ эквивалентно $ <x> := \varepsilon | <y><x> $
     \end{itemize}
     \item \textit{Условное вхождение}
+    \begin{itemize}
+        \item $<x> := [<y>]$ эквивалентно $<x>:= \varepsilon | <y> $
+    \end{itemize}
     \item \textit{Скобки для группировки} 
+    \begin{itemize}
+        \item $(<x>|<y>)<z>$ эквивалентно $<x><z> | <y><z>$
+    \end{itemize}
 \end{itemize}
 
-\textit{Пример}. Арифметические выражения % TODO Example format
+\begin{example}{ Арифметические выражения }
 \[ <expr> := [-] <factor> \{ (+ | -) <factor> \}  \]
 \[ <factor> := <term> \{ (* | /) <term> \} \]
 \[ <term> := <number> / '('<expr>')' \]
+\end{example}
 
 \subsubsection{Синтаксические диаграммы Вирта}
-% TODO
+\screenshot{width=0.8\textwidth}{./img/S001.jpg}{Синтаксические диаграммы Вирта}
+\screenshot{width=0.8\textwidth}{./img/S002.jpg}{Синтаксические диаграммы Вирта}
 
 \subsection{Формальная грамматика}
 \begin{itemize}
     \item \dfn{Порождающая грамматика} $G$ --- это четверка $\{V_T, V_N, P, S \}$
     \begin{itemize}
-        \item $V_T$ --- алфавит терминальных символов
-        \item $V_N$ --- алфавит нетерминальных символов
+        \item $V_T$ --- алфавит терминальных символов (\dfn{терминалов})
+        \item $V_N$ --- алфавит нетерминальных символов (\dfn{нетерминалов})
         \begin{itemize}
             \item $ V_T \cap V_N = \emptyset $
             \item $V :+ V_T \cap V_N$
         \end{itemize}
-        \item $P$ --- конечное множество правил вида $\alpha \rightarrow \beta$
-        \item % TODO
+        \item $P$ --- конечное множество правил вида $\alpha \rightarrow \beta $
+        \begin{itemize}
+            \item $ \alpha \in V^* V_N V^* $
+            \item $ \beta in V^* $
+        \end{itemize}
+        \item $S$ --- начальный нетерминал грамматики
+        \begin{itemize}
+            \item $ S \in N $
+        \end{itemize}
     \end{itemize}
 \end{itemize}
+
+\begin{example}{Язык чисел в двоичной системе счисления}
+    \[ V_T = \{ 0, 1, - \}; V_n = \{ S, N, A \} \]
+    \begin{itemize}
+        \item $S \rightarrow0$
+        \item $S \rightarrow N$
+        \item $S \rightarrow -N$
+        \item $ N \rightarrow 1A $
+        \item $ A \rightarrow 0A $
+        \item $ A \rightarrow 1A $
+        \item $ A \rightarrow \varepsilon $
+    \end{itemize}
+    После преобразований:
+    \begin{itemize}
+        \item $ S \rightarrow 0 \mid N \mid -N $
+        \item $ N \rightarrow 1A $
+        \item $ A \rightarrow 0A \mid 1A \mid \varepsilon $
+    \end{itemize}
+    Или так:
+    \begin{itemize}
+        \item $ S \rightarrow 0 \mid [-]N $
+        \item $ N \rightarrow 1A $
+        \item $ A \rightarrow (0 \mid 1)A \mid \varepsilon $
+    \end{itemize}
+\end{example}
 
 \dfn{Отношение непосредственной выводимости}
 \begin{itemize}
     \item $\alpha \rightarrow \beta \in P$
     \item $\gamma, \delta \in V^*$
-    \item % TODO
+    \item $ \gamma\alpha\delta \Rightarrow \gamma\beta\delta $: $ \gamma\beta\delta $ \dfn{непосредственно выводится} из $\gamma\alpha\beta$ при помощи правила $ \alpha \rightarrow \beta$
 \end{itemize}
 
 \dfn{Отношение выводимости} --- рефлексивно-транзитивное замыкание отношения непосредственной выводимости
 \begin{itemize}
     \item $\alpha_0, \alpha_1, \ldots, \alpha_n \in V^*$
     \item $\alpha_0 \Rightarrow \alpha_1 \Rightarrow \ldots \Rightarrow \alpha_n$
-    \item % TODO
+    \item $ \alpha_0 \xRightarrow{*} \alpha_n: \alpha_n $ \dfn{выводится из} $\alpha_0$
 \end{itemize}
 
-\[ S \rightarrow 0 | N | -N \]
-\[ N \rightarrow 1A \]
-\[ A \rightarrow 0A | 1A | \varepsilon \]
+\begin{example}[Отношение выводимости]
+    \[ S \rightarrow 0 | N | -N \]
+    \[ N \rightarrow 1A \]
+    \[ A \rightarrow 0A | 1A | \varepsilon \]
 
-\[ S \Rightarrow -N \Rightarrow -1A \Rightarrow -11A \Rightarrow^* -1101A \Rightarrow -1101 \]
+    \[ S \Rightarrow -N \Rightarrow -1A \Rightarrow -11A \Rightarrow^* -1101A \Rightarrow -1101 \]
+\end{example}
 
 \subsubsection*{Свойства отношения выводимости}
 \begin{itemize}
-    \item Транзитивность % TODO
-    \item Рефлексивность
+    \item Транзитивность\\
+        $ \forall \alpha, \beta, \gamma in V^*: \alpha \xRightarrow{*} \beta, \beta \xRightarrow{*} \gamma $ следовательно $ \alpha \xRightarrow{*} \gamma$
+    \item Рефлексивность: $ \forall \alpha \in V^*: \alpha \xRightarrow{*} \alpha $
+    \item $\alpha_0 \xRightarrow{+} \alpha_n$: вывод использует хотя бы одно правило грамматики
+    \item $ \alpha_0 \xRightarrow{k} \alpha_n $: вывод происходит за $k$ шагов
 \end{itemize}
 
 \subsubsection*{Левосторонний вывод}
 На каждом шагу заменяем самый левый нетерминал
-\begin{equation} % TODO multilne eq?
-    S \rightarrow AA | s\\
-    A \rightarrow a\\
-    A \rightarrow AA || Bb\\
-    B \rightarrow c | d
-\end{equation}
+\[ S \rightarrow AA \mid s\]
+\[A \rightarrow a\]
+\[A \rightarrow AA \mid Bb \mid a\]
+\[B \rightarrow c \mid d\]
+
+\[ S \Rightarrow AA \Rightarrow BbA \Rightarrow cbA \Rightarrow cbAA \Rightarrow cbaA \Rightarrow cbaa \]
+
+\dfn{Правосторонний вывод} определяется аналогично
 
 \subsubsection*{Язык, порождаемый грамматикой} --- всевозможные цепочки из тервиналов, которые выводятся из стартового терминала
-\[ L(G) = \{ \omega \in V_T^* | S \Rightarrow^* \omega \} \]
+\[ L(G) = \{ \omega \in V_T^* | S \xRightarrow{*} \omega \} \]
 
-Грамматики $G_1$ и $G_2$ эквивалентны, если равны порождаемыми ими языки
+Грамматики $G_1$ и $G_2$ эквивалентны, если $ L(G_1) = L(G_2) $ 
 
 \subsubsection*{Контекстно-свободная грамматика} --- грамматика, все правила которой имеют вид $A \rightarrow \alpha, A \in V_n, \alpha \in V^*$. В левой части находится только один терминал
 
@@ -229,6 +325,16 @@ $2^A = \{ B | B \subseteq A \}$ --- \textit{powerset}, множество все
     \item Если узлы $n_0, \ldots, n_k$ --- прямые потомки узла $n$, перечисленные слева направо, с метками
 \end{itemize}
 
+\begin{example}{Дерево вывода}
+    $ G = < \{ S, A \}, \{ a, b \}, \{ S \rightarrow aAS \mid a, A \rightarrow SbA \mid ba \mid sSS \}, S > $
+
+    $ S \Rightarrow aAS \Rightarrow aSBaS \Rightarrow aabAS \Rightarrow aabbaS \Rightarrow aabbaa $
+    \screenshot{width=0.5\textwidth}{./img/S003.jpg}{Пример дерева вывода}
+
+\end{example}
+
+\begin{tcolorbox}
 \textit{Теорема}. Пусть $G = \{V_N, V_T, P, S\}$ --- КС-грамматика. Вывод $S^* \Rightarrow \alpha$, где $\alpha \in V^*$, $\alpha \ne \varepsilon$ существует дерево вывода в грамматика $G$ с результатом $n$
+\end{tcolorbox}
 
 \end{document}
