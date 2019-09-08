@@ -1,0 +1,34 @@
+\ProvidesPackage{conspectFormat}
+
+% ====== Text spacing ======
+
+\usepackage{setspace} % String spacing
+\onehalfspacing{}
+
+\usepackage{parskip} % The red line
+\setlength{\parskip}{15pt} % Sep beetween paragraphs
+
+\usepackage{enumitem}
+\setlist{nosep, topsep=-10pt} % Remove sep-s beetween list elements
+
+% ====== Page layout ======
+\usepackage[ % Margins
+left=1cm,
+right=1cm,
+top=2cm,
+bottom=2cm	
+]{geometry}
+
+% ====== Headers ======
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+% ====== Document sectioning ======
+
+\usepackage{titlesec}
+
+\newcommand\sectionbreak{\clearpage} % Each section on a new page
+
+\titlespacing*{\subsubsection}{0pt}{15pt}{3pt}
+\titlespacing*{\paragraph}{0pt}{15pt}{6pt}
+\titlespacing*{\subparagraph}{0pt}{15pt}{3pt}

@@ -1,4 +1,4 @@
-\ProvidesPackage{conspectPreamble}
+\ProvidesPackage{generalPreamble}
 
 % ====== Localization & fonts ======
 \usepackage{xcolor}
@@ -8,7 +8,6 @@
 \setmainfont{Times New Roman}[Mapping=tex-text]
 \newfontfamily\cyrillicfont{Times New Roman}[Mapping=tex-text]
 
-% TODO look for better; don't like this one
 \setmonofont[Scale=0.9]{DejaVu Sans Mono}
 \newfontfamily{\cyrillicfonttt}{DejaVu Sans Mono}[Scale=0.8]
 
@@ -17,17 +16,11 @@
 \usepackage{mathtools}
 \usepackage{gensymb}
 \usepackage{amssymb}
+\usepackage{interval}
 
-% ====== Other text spacing ======
-
-\usepackage{setspace} % String spacing
-\onehalfspacing{}
-
-\usepackage{parskip} % The red line
-\setlength{\parskip}{15pt} % Sep beetween paragraphs
-
-\usepackage{enumitem}
-\setlist{nosep, topsep=-10pt} % Remove sep-s beetween list elements
+\intervalconfig{
+    soft open fences
+}
 
 % ====== CSV ======
 \usepackage{csvsimple} % Load CSV
@@ -47,14 +40,6 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \captionsetup[figure]{name=Рисунок, labelsep=endash, parskip=0pt}
-
-\captionsetup[lstlisting]{
-    labelsep=period,
-    justification=RaggedLeft,
-    parskip=0pt,
-    singlelinecheck=false,
-    skip=3pt
-}
 
 \captionsetup[table]{
     labelsep=period,
@@ -81,7 +66,6 @@
 \usepackage{csquotes} % French quoutes
 \usepackage{multirow}
 \usepackage{tcolorbox}
-
 
 \usepackage{lastpage}
 
@@ -125,36 +109,3 @@
 % ====== Counters ======
 
 \numberwithin{equation}{section}
-
-\newcounter{stepcounter}[subsubsection]
-
-\newcommand\steppar[1][\DefaultOpt]{
-    \def\DefaultOpt{#1}
-    \paragraph{Шаг №\thestepcounter.}
-    \refstepcounter{stepcounter}
-}
-
-% ====== Page layout ======
-\usepackage[ % Margins
-left=1cm,
-right=1cm,
-top=2cm,
-bottom=2cm	
-]{geometry}
-
-
-% ====== Headers ======
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-
-
-% ====== Document sectioning ======
-
-\usepackage{titlesec}
-
-\newcommand\sectionbreak{\clearpage} % Each section on a new page
-
-\titlespacing*{\subsubsection}{0pt}{15pt}{3pt}
-\titlespacing*{\paragraph}{0pt}{15pt}{6pt}
-\titlespacing*{\subparagraph}{0pt}{15pt}{3pt}
-
