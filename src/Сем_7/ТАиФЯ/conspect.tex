@@ -242,7 +242,7 @@ $2^A = \{ B | B \subseteq A \}$ --- \textit{powerset}, множество все
 \begin{example}{Язык чисел в двоичной системе счисления}
     \[ V_T = \{ 0, 1, - \}; V_n = \{ S, N, A \} \]
     \begin{itemize}
-        \item $S \rightarrow0$
+        \item $S \rightarrow 0$
         \item $S \rightarrow N$
         \item $S \rightarrow -N$
         \item $ N \rightarrow 1A $
@@ -337,5 +337,126 @@ $2^A = \{ B | B \subseteq A \}$ --- \textit{powerset}, множество все
 \begin{tcolorbox}
 \textit{Теорема}. Пусть $G = \{V_N, V_T, P, S\}$ --- КС-грамматика. Вывод $S^* \Rightarrow \alpha$, где $\alpha \in V^*$, $\alpha \ne \varepsilon$ существует дерево вывода в грамматика $G$ с результатом $n$
 \end{tcolorbox}
+
+
+\section{Конечные автоматы}
+\subsection{Теоретико-множественное доказательство невозможности описания языков}
+\begin{itemize}
+    \item \dfn{Конечное описание} --- предложение над некоторым алфавитом (подразумеваемая интерпретация которого связывает его с описываемым языком)
+
+    \item Любой язык является не более, чем счётным; соответсвенно, существует не более, чем счетное множество конечных описаний
+
+    \item Множество всех языков над данным алфавитом не является счетным, т.к. множество всех подмножеств счетного подмножеств более, чем счетно.
+
+\end{itemize}
+Итого, конечных описаний меньше, чем языков, соответсвенно не для всех бесконечных языков существует конечное описание
+
+\subsection{Конечные автоматы}
+\subsubsection{Примеры}
+% TODO турникет
+% TODO бот
+% TODO X/0
+
+\subsubsection{Определение}
+\dfn{(Детерминированный) конечный автомат} --- $ ( Q, \Sigma, \delta, q_0, F ) $ 
+\begin{itemize}
+    \item $Q \ne 0$ --- конечное множество состояний 
+    \item $\Sigma$ --- Конечный входной алфавит
+    \item $\delta$ --- отображение типа $Q \times \Sigma \rightarrow Q$\\
+    $\delta (q_i, x) = y$
+    \item $q_0 \in Q$ --- начальное состояние
+    \item $F \subseteq Q$ --- множество конечных состояний
+\end{itemize}
+
+\begin{example}{Язык двоичных чисел}
+    \[ Q = \{q_0, q_1, q_2, q_3\}, \Sigma = \{ 0, 1, - \}, q_0 = q_0, F = \{ q_1, q_2 \} \]
+
+    % TODO
+
+\end{example}
+
+\subsubsection*{Путь в конечном автомате}
+\dfn{Путь} --- кортеж $(q_0, e_1, q_1, \ldots, e_n, q_n)$
+\begin{itemize}
+    \item $n \ge 0$
+    \item $\forall i: e_i = \delta(q_i, w_i)$
+\end{itemize}
+Пусть \dfn{успешен}, если $q_0$ --- начальное состояние
+
+\subsubsection*{Такт работы КА}
+\begin{itemize}
+    \item \dfn{Конфигурация (мгновенное описание) КА} --- $<q, \sigma>$, где $q \in Q$, $\omega in \Sigma^*$
+    \item \dfn{Такт работы} --- бинарное отношение $X$: если $\delta(p, x) = q$ и $\omega \in \Sigma^*$, то $ (p, x\omega) X (q, \omega) $ % TODO штопор
+\end{itemize}
+Цепочка $\omega$ \textit{распознается} КА, если $\exists$ успешный путь
+
+\begin{tcolorbox}
+    \textbf{Теорема.} Рассмотрим конечный автомат $M = (Q, \Sigma, \delta, q_o, F$).\\
+    Слово $\omega \in \Sigma$, если % TODO
+\end{tcolorbox}
+
+Обобщение функции перехода:
+\begin{itemize}
+    \item $\delta'(q, \varepsilon) = q$
+    \item $\delta'(q, xa) = \delta'(\delta(q, x), a)$, где $x \in \Sigma^*, a \in \Sigma $
+\end{itemize}
+
+\begin{tcolorbox}
+    \textbf{Теорема.} $<q_1, a> X^* (q_2, \varepsilon), (q_2, \beta) $ % TODO
+\end{tcolorbox}
+
+\subsubsection{Эквивалетность конечных автоматов}
+Конечные автоматы $A_1, A_2$ \dfn{эквивалетны}, если распознают один и тот же язык.
+
+Проверка на эквивалентность --- одновременный обход в ширину двух автоматов. Каждый переход должен приводить в терминальне или нетерминальные вершины в обоих автоматах соответственно
+
+\dfn{Минимальный конечный автомат} --- автомат, имеющий наименьшее число состояний, распознающий тот же язык, что и данный. 
+
+Если автомат неполный, его можно дополнить \dfn{дьявольской вершиной}. В эту вершину пойдут все переходы, которые не существуют в вершинах  
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./img/L2/S001.jpg}
+    \caption{Пример автомата}%
+    \label{img:l2:1}
+\end{figure}
+Автомат на рис.~\ref{img:l2:1} распознает $\{ {(01)}^K | k \ge 0 \}$. Можно построить аналогичный:
+
+\subsubsection{Классы эквивалетности}
+\dfn{Отношение эквивалетности} --- рефлексивное, симметричное, транзитивное отношение
+\begin{itemize}
+    \item $xRx$
+    \item $xRy \Longleftrightarrow yRx$
+    \item $xRy, yRz \Rightarrow xRz$
+\end{itemize}
+
+\begin{tcolorbox}
+    \textbf{Теорема}. $\forall R$ --- отношение эквивалетности на множестве $S$\\
+    Можно разбить $S$ на $k$ непересекающихся подмножеств подмножеств $I_1, \ldots, I_k$, в т.ч. $aRb \Longleftrightarrow a, b \in I_j$
+\end{tcolorbox}
+Множества $I_1 \ldots I_k$ называются классами эквивалетности
+
+\subsubsection*{Эквивалетные состояния}
+\begin{itemize}
+    \item $\omega \in \Sigma^*$ \dfn{различает} состояния $q_i$ и $q_j$, если $\delta'(q_i, \omega) = t_1$, $\delta'(q_j, \omega) = t_2 \Rightarrow (t_1 \notin F \Longleftrightarrow t_2 \in F )$
+    \item $q_i, q_j$ \dfn{эквивалетны}, $(q_i ~ q_j)$, если $\forall \omega \in \Sigma^*$: $\delta'(q_i, \omega) = t_1, \delta'(q_j, \omega)$ % TODO
+\end{itemize}
+
+\subsubsection*{Алгоритм минимизации} % TODO
+\begin{itemize}
+    \item $Q$ --- очередь
+    \item \texttt{marked} --- таблица размером $n \times n$
+\end{itemize}
+
+Пустой цепочкой различимы конечные и неконечные состояния
+
+\subsection{Недетерминированный КА}
+Отличается отображение. Из состояния по символу происходит переход в некоторое множество состояний. В графическом виде это значит, что из одной вершины по одному символу выходит одна или несколько стрелок.
+
+Такт работы связывает две конфигурации
+
+ДКА --- частный случай НКА. В множестве может быть и один элемент
+
+ДКА строить сложнее, но их легче использовать --- если длина цепочки $n$, то можно проверить, принадлежит ли она языку за $o(n)$.
 
 \end{document}
