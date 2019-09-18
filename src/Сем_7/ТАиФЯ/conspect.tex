@@ -358,7 +358,7 @@ $2^A = \{ B | B \subseteq A \}$ --- \textit{powerset}, множество все
 Итого, конечных описаний меньше, чем языков, соответсвенно не для всех бесконечных языков существует конечное описание
 
 \subsection{Конечные автоматы}
-\subsubsection{Примеры}
+\subsubsection*{Примеры}
 \begin{figure}[h]
    \centering
    \begin{tikzpicture}[> = stealth,node distance=3cm, on grid]
@@ -478,7 +478,7 @@ $2^A = \{ B | B \subseteq A \}$ --- \textit{powerset}, множество все
     \item $\vdash^*$ --- рефлексивное, транзитивное замыкание $\vdash$
 \end{itemize}
 
-\subsubsection*{Распознавание слова конечным автоматом}
+\subsubsection{Распознавание слова конечным автоматом}
 
 Цепочка $\omega$ \textit{распознается} КА, если $\exists$ успешный путь с меткой $ \omega $. 
 
@@ -504,7 +504,7 @@ $2^A = \{ B | B \subseteq A \}$ --- \textit{powerset}, множество все
     \textbf{Теорема}. $ \left\langle q_1, \alpha \right\rangle \vdash^* \left\langle q_2, \varepsilon \right\rangle, \left\langle q_2, \beta \right\rangle \vdash^* \left\langle q_3, \varepsilon \right\rangle \Rightarrow \left\langle q_1, \alpha\beta \right\rangle \vdash^* \left\langle q_3, \varepsilon \right\rangle  $
 \end{tcolorbox}
 
-\subsubsection{Эквивалетность конечных автоматов}
+\subsection{Эквивалетность конечных автоматов}
 Конечные автоматы $A_1, A_2$ \dfn{эквивалетны}, если распознают один и тот же язык.
 
 Проверка на эквивалентность --- одновременный обход в ширину двух автоматов. Каждый переход должен приводить в терминальне или нетерминальные вершины в обоих автоматах соответственно
@@ -525,7 +525,7 @@ $2^A = \{ B | B \subseteq A \}$ --- \textit{powerset}, множество все
 \end{tcolorbox}
 Множества $I_1 \ldots I_k$ называются \dfn{классами эквивалетности}
 
-\subsubsection*{Эквивалетные состояния}
+\subsubsection{Эквивалетные состояния}
 \begin{itemize}
     \item $\omega \in \Sigma^*$ \dfn{различает} состояния $q_i$ и $q_j$, если $\delta'(q_i, \omega) = t_1$, $\delta'(q_j, \omega) = t_2 \Rightarrow (t_1 \notin F \Leftrightarrow t_2 \in F )$
     \item $q_i, q_j$ \dfn{эквиваленты}, $(q_i ~ q_j)$, если $\forall \omega \in \Sigma^*$: $\delta'(q_i, \omega) = t_1, \delta'(q_j, \omega) = t_2 \Rightarrow (t_1 \in F \Leftrightarrow t_2 \in F)$
@@ -539,21 +539,90 @@ $2^A = \{ B | B \subseteq A \}$ --- \textit{powerset}, множество все
     \textbf{Доказательство}. $ \delta'(p_i, c \omega) = \delta'( \delta'(p_i, c), \omega ) = \delta'(q_i, \omega) = t_i $ 
 \end{tcolorbox}
 
-\subsubsection*{Алгоритм минимизации} % TODO
+\subsubsection{Алгоритм минимизации}
+Классы эквивалетности разбиваются на новые состояния
+
 \begin{itemize}
     \item $Q$ --- очередь
-    \item \texttt{marked} --- таблица размером $n \times n$
+    \item \texttt{marked} --- таблица размером $n \times n$ ($n$ --- количество состояний КА)
 \end{itemize}
 
-Пустой цепочкой различимы конечные и неконечные состояния
+Помечаем в таблице пары неэквивалетных состояний и кладем их в очередь
+
+\begin{enumerate}
+    \item Если автомат не полный --- дополнить дьявольской вершиной
+    \item Строим отображение $ \delta^{-1} $ --- обратные ребра
+    \item Находим все достижимые из стартового состояния
+    \item Добавляем в $Q$ и отмечаем в \texttt{marked} пары состояний, различимые $ \varepsilon $.
+    \item Основной цикл. Можем пометить пару $(u,v)$, если $\exists c \in \Sigma: ( \delta(u,c), \delta(v, c) )$. Для этого, пока $Q \ne \emptyset$:
+    \begin{itemize}
+        \item Извлекаем $(u,v)$ из $Q$
+        \item $\forall \in \Sigma$ перебираем $( \delta^{-1}(u,c), \delta^{-1}(v, c) )$ --- если пара не помечена, помечаем и кладем в очередь
+    \end{itemize}
+    \item В момент опустошения $Q$ непомеченные пары являеются эквивалетными
+    \item За проход по таблице выделяем классы эквивалентности
+    \item За проход по таблице формируем новые состояния и переходы
+\end{enumerate}
+
+\begin{itemize}
+    \item \dfn{Стартовое состояние} --- класс эквивалетности,которому принадлежит стартовое состояние исходного КА
+    \item \dfn{Конечные состояния} --- классы эквивалетности, которым принадлежат конечные состояния исходного КА 
+\end{itemize} 
 
 \subsection{Недетерминированный КА}
+\begin{itemize}
+    \item $Q \ne 0$ --- конечное множество состояний 
+    \item $\Sigma$ --- Конечный входной алфавит
+    \item $\delta$ --- отображение типа $Q \times \Sigma \rightarrow 2^Q$\\
+        $\delta (q_i, x) = \{ q_{j_0} \ldots q_{j_k} \}$
+    \item $q_0 \in Q$ --- начальное состояние
+    \item $F \subseteq Q$ --- множество конечных состояний
+\end{itemize}
 Отличается отображение. Из состояния по символу происходит переход в некоторое множество состояний. В графическом виде это значит, что из одной вершины по одному символу выходит одна или несколько стрелок.
 
-Такт работы связывает две конфигурации
+Такт работы связывает две конфигурации.
+\begin{itemize}
+    \item \dfn{Конфигурация (Мгновенное описание)} --- $ \left\langle q, \omega \right\rangle $, где $ q \in Q, \omega \in \Sigma^* $
+    \item \dfn{Такт работы} --- бинарное отношение $\vdash$: если $ q \in \delta(p, x) $ и $ \omega \in \Sigma^* $, то $ \left\langle p, x\omega \right\rangle \vdash \left\langle q, \omega \right\rangle $
+    \item $\vdash^*$ --- рефлексивное, транзитивное замыкание $\vdash$
+    \item НКА допускает слово $\alpha$, если $\exists t \in F: \left\langle s, \alpha \right\rangle \vdash^* \left\langle t, \varepsilon \right\rangle $
+    \item \dfn{Язык НКА} $ L(a) = \{ \omega \in \Sigma^* | \exists t \in F: \left\langle s, \omega \right\rangle \vdash^* \left\langle t, \varepsilon \right\rangle \} $ 
+    \item ДКА --- частный случай НКА
+\end{itemize}
 
-ДКА --- частный случай НКА. В множестве может быть и один элемент
+\subsubsection*{Алгоритм Томпсона}
+\begin{itemize}
+    \item Q --- очередь. Помещаем туда $ \{ q_0 \} $.
+    \item Пока $ Q \ne \emptyset $:
+    \begin{itemize}
+        \item $q \leftarrow \text{Q.pop()}$ % chktex 36
+        \item $ q' = \{ t = \delta(s, c) | s \in q, c \in \Sigma \} $. Если $q' \notin Q$, добавить его в очередь.\\
+        Каждое такое множество --- новая вершина ДКА; добавляются переходы по соответсвующим символам
+        \item Если во множестве есть хотябы одна вершина, являющаяся терминальное в НКА, то в ДКА соответствующая вершина будет конечной
+    \end{itemize}
+    \item Результат: $ \{ \Sigma, Q_d, q_{d_0} \in Q, F_d \subset Q_d, \delta_d: Q_d \times \Sigma \rightarrow Q_d \} $
+    \begin{itemize}
+        \item $ Q_d = \{ q_d | q_d \subseteq 2^Q \} $
+        \item $q_{d_0} = \{ q_0 \}$
+        \item $ F_d = \{ q \in Q_d | \exists p \in F: p \in q \} $
+        \item $ \delta_d(q,c) = \{ \delta(a,c) | a \in q \} $
+    \end{itemize}
+\end{itemize}
 
 ДКА строить сложнее, но их легче использовать --- если длина цепочки $n$, то можно проверить, принадлежит ли она языку за $o(n)$.
+
+\begin{tcolorbox}
+    \textbf{Теорема}. ДКА и НКА распознают один и тот же класс языков 
+\end{tcolorbox}
+
+\begin{tcolorbox}
+    \textbf{Доказательство}.
+
+    $\Rightarrow$ --- очевидно\\
+    $ \Leftarrow $ --- Рассмотрим произвольный НКА и покажем, что алгоритм Томпсона строит по нему эквивалетный ДКА.
+    \[ \forall q in q_d, \forall c \in \Sigma^*, \forall p \in \delta(q, c): p \in \delta_d(q_d, c) \]
+    Рассмотрим $ \left\langle q_0, w_1 w_2 \ldots w_m \right\rangle \vdash \left\langle u_1, w_2 \ldots w_m \right\rangle \vdash^* \left\langle u_m, \varepsilon \right\rangle, u_m \in F $
+    \[ \forall i: u_i \in u_{d_i}, \text{где} (q_{d_0}, w_1 w_2 \ldots w_m) \vdash (u_{d_1}, w_2 \ldots w_m) \vdash^*(u_{d_m}, \varepsilon) \Rightarrow u_m \in u_{d_m} \] 
+\end{tcolorbox}
 
 \end{document}
