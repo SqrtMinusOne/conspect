@@ -8,9 +8,6 @@
 \usepackage{parskip} % The red line
 \setlength{\parskip}{15pt} % Sep beetween paragraphs
 
-\usepackage{enumitem}
-\setlist{nosep, topsep=-10pt} % Remove sep-s beetween list elements
-
 % ====== Page layout ======
 \usepackage[ % Margins
 left=1cm,
@@ -18,6 +15,19 @@ right=1cm,
 top=2cm,
 bottom=2cm	
 ]{geometry}
+
+% ====== My commands ======
+\newcommand{\StartAddons}{
+    \titleformat{\section}[display]{\filcenter\bfseries}{\thesection.}{0pt}{\MakeUppercase}
+}
+
+\newcommand{\addonsubheader}[1]{{\center{\bfseries #1} \\ \vspace{15pt}}}
+
+\newcommand{\AddonSection}[2]{%
+    \section*{#1}
+    \addcontentsline{toc}{section}{#1. #2}
+    \addonsubheader{#2}
+}
 
 % ====== Headers ======
 \usepackage{fancyhdr}

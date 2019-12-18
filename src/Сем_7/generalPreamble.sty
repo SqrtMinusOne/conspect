@@ -1,16 +1,5 @@
 \ProvidesPackage{generalPreamble}
 
-% ====== Localization & fonts ======
-\usepackage{xcolor}
-\usepackage{fontspec}
-\usepackage{polyglossia} % Russian lang
-\setdefaultlanguage{russian}
-\setmainfont{Times New Roman}[Mapping=tex-text]
-\newfontfamily\cyrillicfont{Times New Roman}[Mapping=tex-text]
-
-\setmonofont[Scale=0.9]{DejaVu Sans Mono}
-\newfontfamily{\cyrillicfonttt}{DejaVu Sans Mono}[Scale=0.8]
-
 % ====== Math ======
 \usepackage{amsmath} % Math stuff
 \usepackage{mathtools}
@@ -22,28 +11,47 @@
     soft open fences
 }
 
+% ====== List ======
+\usepackage{enumitem}
+\setlist{nosep, topsep=-10pt} % Remove sep-s beetween list elements
+\setlist[enumerate]{label*=\arabic*.}
+\setlist[enumerate,1]{after=\vspace{\baselineskip}}
+\setlist[itemize,1]{after=\vspace{\baselineskip}}
+
 % ====== CSV ======
 \usepackage{csvsimple} % Load CSV
 
 % ====== References ======
+\usepackage{environ}
+\usepackage{xcolor}
 \usepackage{hyperref} % Links
 \hypersetup{
     colorlinks,
     citecolor=black,
     filecolor=black,
     linkcolor=black,
-    urlcolor=black
+    urlcolor=black,
 }
 
+\NewEnviron{underlineURL}{%
+    {%
+        \hypersetup{
+            colorlinks=false,
+            urlbordercolor=black,
+            pdfborderstyle={/S/U/W 1}
+        }
+        \BODY{}
+    }
+}
 
 % ====== Captions ======
 \usepackage{caption}
 \usepackage{subcaption}
-\captionsetup[figure]{name=Рисунок, labelsep=endash, parskip=0pt}
+% \captionsetup[figure]{name=Рисунок, labelsep=endash, parskip=0pt}
 
 \captionsetup[table]{
     labelsep=period,
-    justification=RaggedLeft,
+    justification=RaggedRight,
     parskip=0pt,
     singlelinecheck=false,
     skip=3pt
@@ -52,24 +60,27 @@
 \captionsetup[figure]{
     name=Рисунок,
     justification=centering,
-    labelsep=period,
+    labelsep=endash,
     parskip=6pt,
     skip=3pt
 }
 
+% ====== Tables ======
+\usepackage{tabularx} % X-tables
+\usepackage{booktabs}
+\usepackage{longtable}
 
 % ====== Misc ======
 \usepackage{metalogo} % Logos for LaTeX
 \usepackage{lipsum} % Lorem ipsum
 \usepackage{graphicx} % Pictures
-\usepackage{tabularx} % X-tables
 \usepackage{csquotes} % French quoutes
-\usepackage{multirow}
-\usepackage{tcolorbox}
+\usepackage{multirow} % Multi-row tables
+\usepackage{tcolorbox} % Nice colored box
 
-\usepackage{booktabs}
-
-\usepackage{lastpage}
+\usepackage{lastpage} % Link to the last page
+\usepackage{soul}
+\usepackage{pifont}
 
 \usepackage{placeins} % FloatBarrier
 
@@ -85,8 +96,6 @@
 
 
 % ====== My commands ======
-\newcommand{\addonsubheader}[1]{{\center{\bfseries \vspace{-0.5cm} #1} \\ \vspace{15pt}}}
-
 \newcommand{\screenshot}[3]{
     \begin{figure}[h]
         \centering
@@ -95,15 +104,28 @@
     \end{figure}
 }
 
-\newcommand{\dfn}[1]{\textit{#1}}
+\newcommand{\dfn}[1]{
+    \textit{#1}
+}
 
-\newcounter{examplecounter}[section]
+\NewEnviron{rotateandfit}{%
+    \begin{center}
+        \rotatebox{90}{
+            \resizebox{\dimexpr\pagegoal-\pagetotal-\baselineskip\relax}{!}{%
+                \BODY{}
+        }
+    }
+    \end{center}
+}
 
-\newenvironment{example}[1]{
-    \refstepcounter{examplecounter}
-    \paragraph{Пример \thesection.\theexamplecounter. } #1\\
-}{
-    
+\NewEnviron{fitandrotate}{%
+    \begin{center}
+        \resizebox{\textwidth}{!}{%
+            \rotatebox{90}{
+                \BODY{}
+            }
+        }
+    \end{center}
 }
 
 % ====== Counters ======
