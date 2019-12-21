@@ -192,16 +192,14 @@
 
 Система --- \textbf{стационарная}, если её реакция инвариантна по отношению к начала отсчёта времени. По умолчанию рассматриваем стационарные линейные дискретные системы (ЛДС).
 
-% TODO НДУ?
-
 \subsection{Описание ЛДС во временной области}
 Основная характеристика во временной области --- \textbf{импульсная характеристика (ИХ)}, $h(n)$ --- реакция на цифровой единичный импульс $u_0(n)$ при ННУ.
 
 \textbf{Соотношение вход/выход} ЛДС --- однозначно связано с ИХ, имеет вид линейной свертки:
-\begin{equation}
+\begin{equation}\label{eq:in_out}
     y(nT) = \sum^{\infty}_{m=0} h[ (n - m)T ] x(mT) = \sum^{\infty}_{m=0} h(mT) x [ (n-m)T ],
 \end{equation}
-\begin{equation}
+\begin{equation}\label{eq:in_out:2}
     y(n) = \sum^{\infty}_{m=0} h(n-m)x(m) = \sum^{\infty}_{m=0} h(m) x(n-m).
 \end{equation}
 
@@ -238,7 +236,7 @@
 См.~\ref{subsec:lds} (\nameref{subsec:lds}).
 
 Основная характеристика --- \textbf{передаточная функция} (ПФ) --- $z$-изображение импульской характеристики:
-\begin{equation}
+\begin{equation}\label{eq:tf}
     H(z) = \sum^{N-1}_{n=0} h(n) z^{-n} = \frac{Y(z)}{X(z)},
 \end{equation}
 где $Y(z)$ --- $z$-изображение реакции, $X(z)$ --- $z$-изображение воздействия.
@@ -304,7 +302,7 @@
 \section{Линейные дискретные системы. Описание в частотной области}
 См.~\ref{subsec:lds} (\nameref{subsec:lds}).
 Основная характеристика --- \textbf{комплексная частотная характеристика} --- Фурье-изображение ИХ:
-\begin{equation}
+\begin{equation}\label{eq:complex_freq}
     H(e^{j \hat{ \omega }}) = \sum^{\infty}_{n=0} h(n) e^{-j \hat{ \omega } n},
 \end{equation}
 где $\hat{ \omega }$ --- нормированная частота (рад):
@@ -343,13 +341,97 @@
     \item Вещественным нулям соответствует нуль АЧХ на границе основной полосы частот $0$ и/или $\pi$.
 \end{itemize}
 
-\section{Основные характеристики ЛДС. Соотношение вход/выход. Устойчивость ЛДС}
-\lipsum[1] %TODO
+\section{Основные характеристики ЛДС. Соотношение вход / выход. Устойчивость ЛДС}
+\begin{itemize}
+    \item Во временной области --- импульсная характеристика, соотношение вход/выход (cм.~\ref{eq:in_out},~\ref{eq:in_out:2})
+    \item В $z$-области --- передаточная функция (см.~\ref{eq:tf})
+    \item В частнотной области --- комплексная частотная характеристика (см.~\ref{eq:complex_freq})
+\end{itemize}
+
+ЛДС называется \textbf{устойчивой}, если её реакция на любое ограниченное воздействие является ограниченной.
+
+Критерии устойчивости:
+\begin{itemize}
+    \item Критерий во временной области
+    \begin{itemize}
+        \item ЛДС устойчива, если ряд отсчётов импульсной характеристики является абсолютно сходящимся
+        \item КИХ-фильтры устойчивы по определению
+        \item БИХ-фильтры требуют проверки на устойчивость
+    \end{itemize}
+    \item Критерий в $z$-области\\
+        ЛДС устойчива, если все полюса располагаются внутри единичного круга. Граница круга соотвествует \textbf{границе устойчивости}.
+
+        Чем дальше полюс от границы круга, тем больше \textbf{запас устойчивости}.
+
+        В неустойчивой системе возможны \textbf{самовозбуждения}.
+\end{itemize}
 
 \section{$z$-преобразование и его свойства}
-\lipsum[1] %TODO
+\subsection{$z$-преобразование и преобразование Лапласа}
+$z$-преобразования связано с \textbf{преобразованием Лапласа}:
+\begin{equation}
+    X(p) = \int_0^\infty x(t) e^{-pt} dt,
+\end{equation}
+где:
+\begin{itemize}
+    \item $x(t)$ --- непрерывная функция времени (оригинал),
+    \item $X(p)$ --- изображение
+    \item $p = \sigma + j \omega$ --- опреатор Лапласа.
+\end{itemize}
 
-\section{Структруы ЛДС}
+Преобразование Лапласа справедливо в области абсолютной сходимости несобственного интеграла.
+
+\textbf{Дискретное преобразование Лапласа}:
+\begin{equation}
+    t \to nT,
+\end{equation}
+\begin{equation}
+    X(e^{pt}) = \sum^{\infty}_{n=0} x(nT) e^{-pnt}.
+\end{equation}
+
+\textbf{$z$-преобразование}:
+\begin{equation}
+    z = e^{pt},
+\end{equation}
+\begin{equation}
+    X(z) = \sum^{\infty}_{i=1} x(nT) z^{-n},
+\end{equation}
+где:
+\begin{itemize}
+    \item $x(nT)$ --- функция дискретного времени,
+    \item $X(z)$ --- $z$-изображение $x(nT)$.
+\end{itemize}
+
+$z$-преобразование справедливо в области абсолютной сходимости ряда
+\begin{equation}
+    \sum^{\infty}_{n=0} | x(nT) z^{-n} | < \infty.
+\end{equation}
+
+\subsection{Свойства $z$-преобразования}
+\begin{enumerate}
+    \item Линейность
+        \begin{equation}
+            \begin{split}
+                x(n) &= a_1 x_1(n) + a_2 x_2(n) + \ldots\\
+                X(z) &= a_1 X_1(z) + a_2 X_2(z) + \ldots
+            \end{split}
+        \end{equation}
+    \item Теорема о задержке
+        \begin{equation}
+            \begin{split}
+                x(n) \leftrightarrow X(z),\\
+                x(n-m) \leftrightarrow X(z) z^{-m}.
+            \end{split}
+        \end{equation}
+    \item Теорема о свертке
+        \begin{equation}
+            \begin{split}
+                x(n) = \sum^{\infty}_{m=0} x_1(m) x_2(n-m) \leftrightarrow X(z) = X_1(z) X_2(z).
+            \end{split}
+        \end{equation}
+\end{enumerate}
+
+\section{Структуры ЛДС}
 \lipsum[1] %TODO
 
 \section{Цифровые фильтры}
