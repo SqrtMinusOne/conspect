@@ -584,7 +584,7 @@ $z$-преобразование справедливо в области абс
 \subsection{КИХ-фильтр}\label{subsec:fir}
 \textbf{КИХ-фильтр} описывается передаточной функцией:
 \begin{equation}
-    H(z) = \sum^{N-1}_{i=0} b_i z^{-i} = \sum^{N-1}_{n=0}.
+    H(z) = \sum^{N-1}_{i=0} b_i z^{-i} = \sum^{N-1}_{n=0} h(n)z^{-n}.
 \end{equation}
 
 \textbf{Длина} КИХ-фильтра --- число коэффициентов $N$, \textbf{порядок} --- порядок $R$ передаточной функции, равный $R=N-1$.
@@ -610,10 +610,10 @@ $z$-преобразование справедливо в области абс
 \begin{tabularx}{\textwidth}{@{}lllXl@{}}
 \toprule
 \textbf{Тип} & \textbf{Порядок $R$} & \textbf{ИХ $h(n)$} & \textbf{ЛФЧХ} & \textbf{ЦФ}      \\ \midrule
-1            & четный               & симметричная       & $\varphi(\hat{\omega}) = - \dfrac{\hat{\omega}R}{2} $ & ФНЧ, ФВЧ, ПФ, РФ \\
-2            & нечетный             & симметричная       & $\varphi(\hat{\omega}) = - \dfrac{\hat{\omega}R}{2}$ & ФНЧ, ПФ          \\
-2            & четный               & несимметричная     & $ \varphi(\hat{\omega}) = \dfrac{\pi}{2} - \dfrac{\hat{\omega}R}{2}$ & ПФ, ЦПГ          \\
-3            & нечетный             & несимметричная     & $\varphi(\hat{\omega}) = \dfrac{\pi}{2} - \dfrac{\hat{\omega}R}{2}$ & ФВЧ, ПФ, ЦПГ, ЦД \\ \bottomrule
+1            & четный               & симметричная       & $\varphi(\hat{\omega}) = - \dfrac{\hat{\omega}R}{2} $ & ФНЧ, ФВЧ, ПФ, РФ \\[12pt]
+2            & нечетный             & симметричная       & $\varphi(\hat{\omega}) = - \dfrac{\hat{\omega}R}{2}$ & ФНЧ, ПФ          \\[12pt]
+3            & четный               & несимметричная     & $ \varphi(\hat{\omega}) = \dfrac{\pi}{2} - \dfrac{\hat{\omega}R}{2}$ & ПФ, ЦПГ          \\[12pt]
+4            & нечетный             & несимметричная     & $\varphi(\hat{\omega}) = \dfrac{\pi}{2} - \dfrac{\hat{\omega}R}{2}$ & ФВЧ, ПФ, ЦПГ, ЦД \\ \bottomrule
 \end{tabularx}
 \end{table}
 
@@ -783,7 +783,7 @@ $z$-преобразование справедливо в области абс
         $u_0(n-n_0)$ & $ \dfrac{1}{z^{n_0}} $ \\[12pt]
         $u_1(n)$ & $ \dfrac{z}{z-1} $ \\[12pt]
         ${(\pm a)}^n u_1(n)$ & $ \dfrac{1}{1 \mp az^{-1}} $ \\[12pt]
-        $\cos( \omega_0 n ) u_1(n)$ & $ \dfrac{1 - z^{-1} \cos( \omega_0 )}{1 ---  2z^{-1} \cos( \omega_0 ) + z^{-2}} $ \\ \bottomrule
+        $\cos( \omega_0 n ) u_1(n)$ & $ \dfrac{1 - z^{-1} \cos( \omega_0 )}{1 - 2z^{-1} \cos( \omega_0 ) + z^{-2}} $ \\ \bottomrule
     \end{tabular}
 \end{table}
 
