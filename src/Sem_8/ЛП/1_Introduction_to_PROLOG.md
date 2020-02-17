@@ -113,7 +113,7 @@ make(tom).
 или так:
 ```prolog
 gender(kate, feminine).
-gender(tom. masculine).
+gender(tom, masculine).
 ```
 
 Расширим программу понятием "потомок":
